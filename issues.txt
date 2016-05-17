@@ -1,0 +1,11 @@
+TODO
+------
+1) Add support for Iframes
+2) Check if element is already in array when finding new elements for zoom
+3) Remove elements out of zoom scope from array
+4) Restore elements out of zoom scope to original CSS properties
+5) Rest
+
+
+Complete
+---------
