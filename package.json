@@ -1,0 +1,32 @@
+{
+  "name": "local_zoom",
+  "version": "1.0.0",
+  "description": "Localized zooming for sight and motor challenged users.",
+  "main": "",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parker-kimbell/zoom_for_yunus.git"
+  },
+  "keywords": [
+    "zoom",
+    "accessibility"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parker-kimbell/zoom_for_yunus/issues"
+  },
+  "homepage": "https://github.com/parker-kimbell/zoom_for_yunus#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-qunit": "^1.4.0",
+    "jshint": "^2.9.2"
+  }
+}

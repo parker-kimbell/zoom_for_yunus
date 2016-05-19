@@ -1,27 +1,28 @@
 //alert("Hello from Yunus!")
 
-var width_increase = .50;
-var height_increase = .25;
+var width_increase = 0.50;
+var height_increase = 0.25;
 
-var font_increase = .25;
+var font_increase = 0.25;
 
 var square = 5;
 
 var currentlyZoomed = [];
 
-$(window).mousemove(function(event) {
+$(window).mousemove(zoomCycle);
+
+function zoomCycle(event) {
 /*	var msg = "Handler for .mousemove() called at ";
   	msg += event.pageX + ", " + event.pageY;
-	console.log(msg); 
-*/	currentlyZoomed = [];
-	var newlyZoomed = findNewZoomedElements(event);
-	console.log('newly zoomed')
-	console.dir(newlyZoomed)
+	console.log(msg);   
+*/	var newlyZoomed = findNewZoomedElements(event);
+	console.log('newly zoomed');
+	console.dir(newlyZoomed);
 	zoomNewElements(newlyZoomed);
 	addNewZoomedElements(newlyZoomed);
 	restoreOldZoomedElements();
 	removeOldZoomedElements();
-});
+}
 
 function findNewZoomedElements(event) {
 	var newlyZoomed = [];
