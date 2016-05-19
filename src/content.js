@@ -1,11 +1,11 @@
 //alert("Hello from Yunus!")
 
 var width_increase = 0.50;
-var height_increase = 0.25;
+var height_increase = 0.50;
 
 var font_increase = 0.25;
 
-var square = 5;
+var square = 25;
 
 var currentlyZoomed = [];
 
@@ -18,8 +18,7 @@ function zoomCycle(event) {
 */	var newlyZoomed = findNewZoomedElements(event);
 	zoomNewElements(newlyZoomed);
 	addNewZoomedElements(newlyZoomed);
-	restoreOldZoomedElements();
-	removeOldZoomedElements();
+	restoreOldZoomedElementsAndRemove();
 }
 
 function findNewZoomedElements(event) {
@@ -72,17 +71,21 @@ function zoomNewElements(newlyZoomed) {
 // possible issue. Not sure if font size is always being pulled in as pixels, and always being set as pixels.
 // $.css pulls the computed value. Is this guaranteed to be in pixels in chrome?
 function scaleFont($element) {
-	var parsedVal = parseInt($element.css('font-size'), 10);
-	$element.originalProps['font-size'] = parsedVal;
-	$element.css('font-size', parsedVal + parsedVal * font_increase);
+	zoomGivenProperty($element, 'font-size', font_increase);
+}
+
+function zoomGivenProperty($element, propertyName, scaleValue) {
+	var parsedVal = parseInt($element.css(propertyName), 10);
+	$element.originalProps[propertyName] = parsedVal;
+	$element.css(propertyName, parsedVal + parsedVal * scaleValue);
 }
 
 function scaleWidth() {
-
+	zoomGivenProperty($element, 'width', width_increase);
 }
 
 function scaleHeight() {
-
+	zoomGivenProperty($element, 'height', height_increase);
 }
 
 function addNewZoomedElements(newlyZoomed) {
@@ -91,19 +94,16 @@ function addNewZoomedElements(newlyZoomed) {
 	}
 }
 
-function restoreOldZoomedElements() {
-	for (var i = 0; i < currentlyZoomed.length; i++) {
-		console.dir(currentlyZoomed[i].originalProps)
-		if (!currentlyZoomed[i].is_zoomed) {
-			currentlyZoomed[i].css('font-size', currentlyZoomed[i].originalProps['font-size']);
+function restoreOldZoomedElementsAndRemove() {
+	currentlyZoomed = _.filter(currentlyZoomed, function(zoomedElement) {
+		if (!zoomedElement.is_zoomed) { // Case: This element has not been marked for zoom, but was zoomed, so must be restored
+			zoomedElement.css('font-size', zoomedElement.originalProps['font-size']);
+			return false;
+		} else { // Case: This element has been marked for zoom and can remain in the array
+			// We need to mark this element as unzoomed (is_zoomed = false) so, if it's still in the zoom square
+			// it can be switched to zoomed (is_zoomed = true) when we make another pass when the mouse moves,
+			zoomedElement.is_zoomed = false;
+			return true;
 		}
-	}
-}
-
-function removeOldZoomedElements() {
-	for (var i = 0; i < currentlyZoomed.length; i++) {
-		if (!currentlyZoomed[i].is_zoomed) {
-			currentlyZoomed.splice(i, 1);
-		}
-	}
+	});
 }

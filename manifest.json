@@ -7,7 +7,7 @@
   		"matches" : [
   		"<all_urls>"
 	  	],
-	  	"js" : ["lib/jquery-2.2.3.min.js", "src/content.js"]
+	  	"js" : ["lib/underscore-min.js", "lib/jquery-2.2.3.min.js", "src/content.js"]
 	}
   ]
 }
