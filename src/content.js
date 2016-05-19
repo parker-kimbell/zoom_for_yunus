@@ -16,8 +16,6 @@ function zoomCycle(event) {
   	msg += event.pageX + ", " + event.pageY;
 	console.log(msg);   
 */	var newlyZoomed = findNewZoomedElements(event);
-	console.log('newly zoomed');
-	console.dir(newlyZoomed);
 	zoomNewElements(newlyZoomed);
 	addNewZoomedElements(newlyZoomed);
 	restoreOldZoomedElements();
@@ -37,10 +35,15 @@ function getElementsFromQuadrant(event, xMax, yMax, newlyZoomed) {
 	for (var i = 0; i < xMax; i++) {
 		for (var j = 0; j < yMax; j++) {
 			var elem = $(document.elementFromPoint(event.pageX + i, event.pageY + j));
-			if (jQueryObjectInArray(elem, newlyZoomed) === -1 && jQueryObjectInArray(elem, currentlyZoomed) === -1) { // Case: element is not currently zoomed
-				console.log('adding new item');
-				console.dir(elem);
+			// In these next two lines I'm finding whether this element has already been zoomed, or needs to be zoomed.
+			var elementNewlyZoomedInd = jQueryObjectInArray(elem, newlyZoomed);
+			var elementCurrentlyZoomedInd = jQueryObjectInArray(elem, currentlyZoomed);
+			if (elementNewlyZoomedInd === -1 && elementCurrentlyZoomedInd === -1) { // Case: element is not currently zoomed
+				elem.originalProps = {};
+				elem.is_zoomed = true;
 				newlyZoomed.push(elem);
+			} else if (elementCurrentlyZoomedInd > -1) { // Case: The element is still zoomed and should remain zoomed. Mark the element as still being zoomed so we can do a pass later and unzoom the proper elements
+				currentlyZoomed[elementCurrentlyZoomedInd].is_zoomed = true;
 			}
 		}
 	}
@@ -70,8 +73,7 @@ function zoomNewElements(newlyZoomed) {
 // $.css pulls the computed value. Is this guaranteed to be in pixels in chrome?
 function scaleFont($element) {
 	var parsedVal = parseInt($element.css('font-size'), 10);
-	console.log('Parsed font ' + parsedVal);
-	$element.originalFontSize = parsedVal;
+	$element.originalProps['font-size'] = parsedVal;
 	$element.css('font-size', parsedVal + parsedVal * font_increase);
 }
 
@@ -87,14 +89,21 @@ function addNewZoomedElements(newlyZoomed) {
 	for (var i = 0; i < newlyZoomed.length; i++) {
 		currentlyZoomed.push(newlyZoomed[i]);
 	}
-	console.log('currentlyZoomed');
-	console.dir(currentlyZoomed);
 }
 
 function restoreOldZoomedElements() {
-
+	for (var i = 0; i < currentlyZoomed.length; i++) {
+		console.dir(currentlyZoomed[i].originalProps)
+		if (!currentlyZoomed[i].is_zoomed) {
+			currentlyZoomed[i].css('font-size', currentlyZoomed[i].originalProps['font-size']);
+		}
+	}
 }
 
 function removeOldZoomedElements() {
-
+	for (var i = 0; i < currentlyZoomed.length; i++) {
+		if (!currentlyZoomed[i].is_zoomed) {
+			currentlyZoomed.splice(i, 1);
+		}
+	}
 }

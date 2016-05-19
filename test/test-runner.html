@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Tests For Mr. Yunus</title>
+    <script type="text/javascript" charset="utf-8" src="../lib/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../src/content.js"></script>
+    <link rel="stylesheet" href="testing_styles/testing_styles.css">
   </head>
   <body>
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
-    
+<!--     <div id="qunit"></div>
+    <div id="qunit-fixture"></div> -->
+    <!-- For some reason this font size isn't applying. It's defaulting to 16 which makes the tests unreliable in the future since they're depending on this implicit value -->
+    <div id="not_yet_zoomed" class="font_size_20"></div>
+    <div id="already_zoomed" class="font_size_20"></div>
     <script src="./testing_libraries/qunit-1.20.0.js"></script>
     <script src="testing_libraries/sinon-1.17.2.js"></script>
     <!-- Add test files after this point -->
