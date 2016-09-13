@@ -7,4 +7,4 @@ A Chrome extension designed to help sight-challenged users on the web. Inspired 
 2. Gulp is used for project builds http://gulpjs.com/.
 3. Testing is done using QUnit https://qunitjs.com/. 
 4. In order to get rolling on development enter the ```gulp develop``` command in your top level directory. This will start a job that will lint your project and run the unit tests on project save.
-5. Find instructions here on how to get a custom extension running in your browser
+5. Find instructions here on how to get a custom extension running in your browser http://superuser.com/a/247654
